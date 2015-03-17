@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <extension key="com.aghstrategies.logvolunteertime" type="module">
   <file>logvolunteertime</file>
-  <name>FIXME</name>
+  <name>Log Own Volunteer Hours</name>
   <description>FIXME</description>
   <license>AGPL-3.0</license>
   <maintainer>
@@ -12,7 +12,8 @@
   <version>1.0</version>
   <develStage>alpha</develStage>
   <compatibility>
-    <ver>4.2</ver>
+    <ver>4.5</ver>
+    <ver>4.6</ver>
   </compatibility>
   <comments>This is a new, undeveloped module</comments>
   <civix>
