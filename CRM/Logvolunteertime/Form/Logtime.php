@@ -8,7 +8,7 @@ require_once 'CRM/Core/Form.php';
  * @see http://wiki.civicrm.org/confluence/display/CRMDOC43/QuickForm+Reference
  */
 
-class CRM_Logvolunteertime_Form_Logtime extends CRM_Core_Form {
+class CRM_Logvolunteertime_Form_Logtime extends CRM_Volunteer_Form_VolunteerSignUp {
 
   public function preProcess() {
     // VOL-71: permissions check is moved from XML to preProcess function to support
