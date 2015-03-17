@@ -10,7 +10,7 @@ require_once 'CRM/Core/Form.php';
 
 class CRM_Logvolunteertime_Form_Logtime extends CRM_Core_Form {
 
-  function preProcess() {
+  public function preProcess() {
     // VOL-71: permissions check is moved from XML to preProcess function to support
     // permissions-challenged Joomla instances
     if (CRM_Core_Config::singleton()->userPermissionClass->isModulePermissionSupported()
@@ -21,7 +21,7 @@ class CRM_Logvolunteertime_Form_Logtime extends CRM_Core_Form {
     parent::preProcess();
   }
 
-  function buildQuickForm() {
+  public function buildQuickForm() {
     parent::buildQuickForm();
     $this->add('text', "scheduled_duration", 'Scheduled Duration');
     $this->add('text', "actual_duration", 'Actual Duration');
@@ -31,13 +31,13 @@ class CRM_Logvolunteertime_Form_Logtime extends CRM_Core_Form {
 
   }
 
-  function postProcess() {
+  public function postProcess() {
     $cid = CRM_Utils_Array::value('userID', $_SESSION['CiviCRM'], NULL);
     $values = $this->controller->exportValues();
     $isFlexible = FALSE;
     // Role id is not present in form $values when the only public need is the flexible need.
     // So if role id is not set OR if it matches flexible role id constant then use the flexible need id
-    if (! isset($values['volunteer_role_id']) || (int) CRM_Utils_Array::value('volunteer_role_id', $values) === CRM_Volunteer_BAO_Need::FLEXIBLE_ROLE_ID) {
+    if (!isset($values['volunteer_role_id']) || (int) CRM_Utils_Array::value('volunteer_role_id', $values) === CRM_Volunteer_BAO_Need::FLEXIBLE_ROLE_ID) {
       $isFlexible = TRUE;
       foreach ($this->_project->needs as $n) {
         if ($n['is_flexible'] === '1') {
@@ -80,18 +80,19 @@ class CRM_Logvolunteertime_Form_Logtime extends CRM_Core_Form {
     $builtin_values['activity_date_time'] = CRM_Utils_Array::value('start_time', $need);
     $builtin_values['assignee_contact_id'] = $cid;
     $builtin_values['is_test'] = ($this->_mode === 'test' ? 1 : 0);
-    // below we assume that volunteers are always signing up only themselves;
-    // for now this is a safe assumption, but we may need to revisit this.
+    // Below we assume that volunteers are always signing up only themselves;
+    // For now this is a safe assumption, but we may need to revisit this.
     $builtin_values['source_contact_id'] = $cid;
 
-    // Set status to Available if user selected Flexible Need, else set to Scheduled.
+    // Set status to Available if user selected Flexible Need,
+    // else set to Scheduled.
     $builtin_values['time_scheduled_minutes'] = CRM_Utils_Array::value('scheduled_duration', $value);
     $builtin_values['time_completed_minutes'] = CRM_Utils_Array::value('actual_duration', $value);
     $builtin_values['status_id'] = CRM_Utils_Array::key('Completed', $activity_statuses);
     $builtin_values['subject'] = $this->_project->title;
     $builtin_values['time_scheduled_minutes'] = CRM_Utils_Array::value('duration', $need);
-    if(CRM_Utils_Array::value('other_role', $builtin_values) != ""){
-      $builtin_values['details'] .= "\r\n Other Role: ".CRM_Utils_Array::value('other_role', $builtin_values);
+    if (CRM_Utils_Array::value('other_role', $builtin_values) != "") {
+      $builtin_values['details'] .= "\r\n Other Role: " . CRM_Utils_Array::value('other_role', $builtin_values);
     }
     CRM_Volunteer_BAO_Assignment::createVolunteerActivity($builtin_values);
 
@@ -99,4 +100,5 @@ class CRM_Logvolunteertime_Form_Logtime extends CRM_Core_Form {
     CRM_Core_Session::setStatus($statusMsg, '', 'success');
     CRM_Utils_System::redirect($this->_destination);
   }
+
 }
