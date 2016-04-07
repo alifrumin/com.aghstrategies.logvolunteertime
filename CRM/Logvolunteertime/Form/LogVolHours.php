@@ -12,12 +12,32 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
 
     // add form elements
     $this->add(
-      'select', // field type
-      'favorite_color', // field name
-      'Favorite Color', // field label
-      $this->getColorOptions(), // list of options
-      TRUE // is required
+      // field type
+      'select',
+      // field name
+      'favorite_color',
+      // field label
+      'Favorite Color',
+      // list of options
+      $this->getColorOptions(),
+        // is required
+      TRUE
     );
+    //select2 for contacts
+    $this->addEntityRef('field_1', ts('Select Contact'));
+    $this->addEntityRef('field_5', ts('Volunteer Projects'), array(
+      'entity' => 'option_value',
+      'api' => array(
+        'params' => array('option_group_id' => 'activity_type'),
+      ),
+      'select' => array('minimumInputLength' => 0),
+    ));
+
+    //captcha
+    // $captcha = CRM_Utils_ReCAPTCHA::singleton();
+    // $captcha->add($this);
+    // $this->assign("isCaptcha", TRUE);
+    //
     $this->addButtons(array(
       array(
         'type' => 'submit',
