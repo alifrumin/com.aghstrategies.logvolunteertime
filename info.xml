@@ -2,7 +2,7 @@
 <extension key="com.aghstrategies.logvolunteertime" type="module">
   <file>logvolunteertime</file>
   <name>Log Own Volunteer Hours</name>
-  <description>Allows anonymous users to log their hours.</description>
+  <description>Creates form for users with permission "CiviVolunteer: log own hours" to log their hours.</description>
   <license>AGPL-3.0</license>
   <maintainer>
     <author>Tyrell Cook</author>
@@ -15,7 +15,7 @@
     <ver>4.5</ver>
     <ver>4.6</ver>
   </compatibility>
-  <comments>This is a new, undeveloped module</comments>
+  <comments>need civiVolunteer 2.0</comments>
   <civix>
     <namespace>CRM/Logvolunteertime</namespace>
   </civix>
