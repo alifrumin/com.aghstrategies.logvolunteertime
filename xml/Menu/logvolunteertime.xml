@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/LogVolHours</path>
+    <page_callback>CRM_Logvolunteertime_Form_LogVolHours</page_callback>
+    <title>LogVolHours</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>
