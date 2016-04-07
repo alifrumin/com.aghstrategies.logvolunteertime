@@ -3,8 +3,6 @@
 require_once 'logvolunteertime.civix.php';
 
 function volunteertime_civicrm_permission( &$permissions ){
-  $prefix = ts('Volunteer Permissions') . ': ';
-  $permissions['log own volunteer hours'] = $prefix . ts('log your own volunteer hours'); // NB: note the conventionof using delete in ComponentName, plural for edits
 }
 /**
  * Implementation of hook_civicrm_config
