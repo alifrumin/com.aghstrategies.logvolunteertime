@@ -28,7 +28,7 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     $this->addEntityRef('field_5', ts('Volunteer Projects'), array(
       'entity' => 'option_value',
       'api' => array(
-        'params' => array('option_group_id' => 'activity_type'),
+        'params' => array('option_group_id' => 'volunteer_projects'),
       ),
       'select' => array('minimumInputLength' => 0),
     ));
@@ -94,4 +94,5 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     }
     return $elementNames;
   }
+
 }
