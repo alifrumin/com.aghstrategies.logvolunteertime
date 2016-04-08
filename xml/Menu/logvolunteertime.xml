@@ -4,6 +4,6 @@
     <path>civicrm/LogVolHours</path>
     <page_callback>CRM_Logvolunteertime_Form_LogVolHours</page_callback>
     <title>LogVolHours</title>
-    <access_arguments>1</access_arguments>
+    <access_arguments>access_civicrm</access_arguments>
   </item>
 </menu>
