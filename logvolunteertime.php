@@ -2,8 +2,6 @@
 
 require_once 'logvolunteertime.civix.php';
 
-function volunteertime_civicrm_permission( &$permissions ){
-}
 /**
  * Implementation of hook_civicrm_config
  *

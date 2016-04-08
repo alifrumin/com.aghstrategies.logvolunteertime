@@ -23,8 +23,43 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
         // is required
       TRUE
     );
-    //select2 for contacts
-    $this->addEntityRef('field_1', ts('Select Contact'));
+
+    $this->add(
+      'text',
+      'first_name',
+      ts('First Name')
+    );
+    $this->addRule(
+      'first_name',
+      'Please enter your first name',
+      'required'
+    );
+    $this->add(
+      'text',
+      'last_name',
+      ts('Last Name')
+    );
+    $this->addRule(
+      'last_name',
+      'Please enter your last name',
+      'required'
+    );
+    $this->add(
+      'text',
+      'email',
+      ts('Email')
+    );
+    $this->addRule(
+      'email',
+      'Please enter a valid email',
+      'email'
+    );
+    $this->addRule(
+      'email',
+      'Please enter your email',
+      'required'
+    );
+    //select2 for volunteer projects
     $this->addEntityRef('field_5', ts('Volunteer Projects'), array(
       'entity' => 'option_value',
       'api' => array(
@@ -32,6 +67,11 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
       ),
       'select' => array('minimumInputLength' => 0),
     ));
+    $this->add(
+      'text',
+      'hours_logged',
+      ts('Hours Volunteered')
+    );
 
     //captcha
     // $captcha = CRM_Utils_ReCAPTCHA::singleton();
@@ -57,6 +97,37 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     CRM_Core_Session::setStatus(ts('You picked color "%1"', array(
       1 => $options[$values['favorite_color']]
     )));
+    $individualParams = array();
+    $individualFields = array(
+      'first_name',
+      'last_name',
+      'email',
+    );
+    foreach ($individualFields as $field) {
+      if (!empty($values[$field])) {
+        $individualParams[$field] = $values[$field];
+      }
+    }
+    //Dedupe contact
+    $dedupeParams = CRM_Dedupe_Finder::formatParams($individualParams, 'Individual');
+    $dedupeParams['check_permission'] = FALSE;
+    $dupeIDs = CRM_Dedupe_Finder::dupesByParams($dedupeParams, 'Individual', 'Unsupervised');
+    if (is_array($dupeIDs) && !empty($dupeIDs)) {
+      $individualParams['id'] = array_shift($dupeIDs);
+    }
+    $individualParams['contact_type'] = 'Individual';
+    try {
+      $individual = civicrm_api3('Contact', 'create', $individualParams);
+    }
+    catch (CiviCRM_API3_Exception $e) {
+      $error = $e->getMessage();
+      CRM_Core_Error::debug_log_message(ts('API Error %1', array(
+        'domain' => 'com.aghstrategies.logvolunteertime',
+        1 => $error,
+      )));
+    }
+    //look for volunteer signups
+
     parent::postProcess();
   }
 
