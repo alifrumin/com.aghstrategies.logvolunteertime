@@ -8,6 +8,10 @@ require_once 'CRM/Core/Form.php';
  * @see http://wiki.civicrm.org/confluence/display/CRMDOC43/QuickForm+Reference
  */
 class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
+
+  public function getVolunteerProjects() {
+
+  }
   public function buildQuickForm() {
     $this->add(
       'text',
