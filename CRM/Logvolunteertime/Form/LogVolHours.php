@@ -9,21 +9,6 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
   public function buildQuickForm() {
-
-    // add form elements
-    $this->add(
-      // field type
-      'select',
-      // field name
-      'favorite_color',
-      // field label
-      'Favorite Color',
-      // list of options
-      $this->getColorOptions(),
-        // is required
-      TRUE
-    );
-
     $this->add(
       'text',
       'first_name',
@@ -59,25 +44,25 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
       'Please enter your email',
       'required'
     );
-    //select2 for volunteer projects
-    $this->addEntityRef('field_5', ts('Volunteer Projects'), array(
-      'entity' => 'option_value',
-      'api' => array(
-        'params' => array('option_group_id' => 'volunteer_projects'),
-      ),
+
+    $this->addEntityRef('field_4', ts('Select Volunteer Project'), array(
+      'entity' => 'volunteer_project',
+      'placeholder' => ts('- Select Volunteer Project -'),
       'select' => array('minimumInputLength' => 0),
     ));
+
+    $this->add(
+      'text',
+      'volunteer_project',
+      ts('Volunteer Project')
+    );
+
     $this->add(
       'text',
       'hours_logged',
       ts('Hours Volunteered')
     );
 
-    //captcha
-    // $captcha = CRM_Utils_ReCAPTCHA::singleton();
-    // $captcha->add($this);
-    // $this->assign("isCaptcha", TRUE);
-    //
     $this->addButtons(array(
       array(
         'type' => 'submit',
@@ -86,6 +71,11 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
       ),
     ));
 
+    // captcha
+    // $captcha = CRM_Utils_ReCAPTCHA::singleton();
+    // $captcha->add($this);
+    // $this->assign("isCaptcha", TRUE);
+
     // export form elements
     $this->assign('elementNames', $this->getRenderableElementNames());
     parent::buildQuickForm();
@@ -93,10 +83,6 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
 
   public function postProcess() {
     $values = $this->exportValues();
-    $options = $this->getColorOptions();
-    CRM_Core_Session::setStatus(ts('You picked color "%1"', array(
-      1 => $options[$values['favorite_color']]
-    )));
     $individualParams = array();
     $individualFields = array(
       'first_name',
@@ -131,20 +117,6 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     parent::postProcess();
   }
 
-  public function getColorOptions() {
-    $options = array(
-      '' => ts('- select -'),
-      '#f00' => ts('Red'),
-      '#0f0' => ts('Green'),
-      '#00f' => ts('Blue'),
-      '#f0f' => ts('Purple'),
-    );
-    foreach (array('1','2','3','4','5','6','7','8','9','a','b','c','d','e') as $f) {
-      $options["#{$f}{$f}{$f}"] = ts('Grey (%1)', array(1 => $f));
-    }
-    return $options;
-  }
-
   /**
    * Get the fields/elements defined in this form.
    *
@@ -158,6 +130,9 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     $elementNames = array();
     foreach ($this->_elements as $element) {
       /** @var HTML_QuickForm_Element $element */
+      if ($element->getName() == 'g-recaptcha-response') {
+        continue;
+      }
       $label = $element->getLabel();
       if (!empty($label)) {
         $elementNames[] = $element->getName();

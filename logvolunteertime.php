@@ -3,6 +3,15 @@
 require_once 'logvolunteertime.civix.php';
 
 /**
+ *  Implements logvolunteertime_civicrm_buildForm()
+ */
+function logvolunteertime_civicrm_buildForm($formName, &$form) {
+  if ($formName == "CRM_Logvolunteertime_Form_LogVolHours") {
+    CRM_Core_Resources::singleton()->addScriptFile('com.aghstrategies.logvolunteertime', 'js/hours.js');
+  }
+}
+
+/**
  * Implementation of hook_civicrm_config
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_config
