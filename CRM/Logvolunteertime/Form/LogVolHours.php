@@ -55,10 +55,24 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
       'select' => array('minimumInputLength' => 0),
     ));
 
+    // $this->add(
+    //   'text',
+    //   'volunteer_project',
+    //   ts('Volunteer Project')
+    // );
+
+    // add form elements
     $this->add(
-      'text',
-      'volunteer_project',
-      ts('Volunteer Project')
+      // field type
+      'select',
+      // field name
+      'volunteer_project_select',
+      // field label
+      'Volunteer Project',
+      // list of options
+      $this->getProjectOptions(),
+      // is required
+      TRUE
     );
 
     $this->add(
@@ -119,6 +133,36 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     //look for volunteer signups
 
     parent::postProcess();
+  }
+
+  public function getProjectOptions() {
+    try {
+      $results = civicrm_api3('VolunteerProject', 'get');
+    }
+    catch (CiviCRM_API3_Exception $e) {
+      $error = $e->getMessage();
+      CRM_Core_Error::debug_log_message(ts('API Error %1', array(
+        'domain' => 'com.aghstrategies.logvolunteertime',
+        1 => $error,
+      )));
+    }
+    //TODO: start here... need to foreach thru projects and create key value pairs that get pushed to $options array.
+    $projects = $results['values'];
+    if (!empty($projects)) {
+      foreach ($projects as $project) {
+        $project['id'] => ts("$project['title']")
+      }
+    }
+
+    //
+    // $options = array(
+    //   '' => ts('- select -'),
+    //   '#f00' => ts('Red'),
+    //   '#0f0' => ts('Green'),
+    //   '#00f' => ts('Blue'),
+    //   '#f0f' => ts('Purple'),
+    // );
+    return $options;
   }
 
   /**
