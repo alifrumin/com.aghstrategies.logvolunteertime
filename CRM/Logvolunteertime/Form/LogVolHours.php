@@ -130,13 +130,11 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
         1 => $error,
       )));
     }
-
-    // creates a volunteer assingment with hours logged
+    // check if volunteer assignment exisists
     try {
-      $loghours = civicrm_api3('VolunteerAssignment', 'create', array(
+      $assignment = civicrm_api3('VolunteerAssignment', 'get', array(
         'volunteer_need_id' => $values['volunteer_need_select'],
         'assignee_contact_id' => $individual['id'],
-        'time_completed_minutes' => $values['hours_logged'],
       ));
     }
     catch (CiviCRM_API3_Exception $e) {
@@ -146,7 +144,44 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
         1 => $error,
       )));
     }
+    //if assigment exsists update
+    // TODO: what if there is more than one assignment
 
+    if (!empty($assignment['values'])) {
+      try {
+        $result = civicrm_api3('VolunteerAssignment', 'create', array(
+          'volunteer_need_id' => $values['volunteer_need_select'],
+          'assignee_contact_id' => $individual['id'],
+          'id' => $assignment['id'],
+          'time_completed_minutes' => $values['hours_logged'],
+        ));
+      }
+      catch (CiviCRM_API3_Exception $e) {
+        $error = $e->getMessage();
+        CRM_Core_Error::debug_log_message(ts('API Error %1', array(
+          'domain' => 'com.aghstrategies.logvolunteertime',
+          1 => $error,
+        )));
+      }
+    }
+    // creates a volunteer assingment with hours logged
+    if (empty($assignment['values'])) {
+      try {
+        $loghours = civicrm_api3('VolunteerAssignment', 'create', array(
+          'volunteer_need_id' => $values['volunteer_need_select'],
+          'assignee_contact_id' => $individual['id'],
+          'time_completed_minutes' => $values['hours_logged'],
+          //TODO add: 'status_id' => 
+        ));
+      }
+      catch (CiviCRM_API3_Exception $e) {
+        $error = $e->getMessage();
+        CRM_Core_Error::debug_log_message(ts('API Error %1', array(
+          'domain' => 'com.aghstrategies.logvolunteertime',
+          1 => $error,
+        )));
+      }
+    }
     parent::postProcess();
   }
 
