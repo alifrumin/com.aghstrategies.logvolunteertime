@@ -10,8 +10,7 @@ Things to do:
 Current Plan:
 -------------
 
-- set up select for volunteer project
-- generate another select based on results of volunteer project that pulls needs (heirselect?)
-- write create api call to log entered info.
-- make sure permissioning is set up correctly
-- test
+- Generate another select based on results of volunteer project that pulls needs (heirselect?)
+- Write conditionals for create api call to log entered info.
+- Make sure permissioning is set up correctly
+- Tests
