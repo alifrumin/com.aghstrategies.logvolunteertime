@@ -144,6 +144,7 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
       'assignee_contact_id' => $individual['id'],
       'time_completed_minutes' => $values['hours_logged'],
       'status_id' => 2,
+      'activity_type_id' => 65,
     );
     if (!empty($assignment['values'])) {
       $assignmentParams['id'] = $assignment['id'];
