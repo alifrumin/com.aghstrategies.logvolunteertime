@@ -3,7 +3,7 @@
   <item>
     <path>civicrm/LogVolHours</path>
     <page_callback>CRM_Logvolunteertime_Form_LogVolHours</page_callback>
-    <title>LogVolHours</title>
+    <title>Log Your Volunteer Hours</title>
     <is_public>true</is_public>
     <access_arguments>log own hours</access_arguments>
   </item>

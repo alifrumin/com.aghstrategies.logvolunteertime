@@ -1,12 +1,6 @@
-Things to do:
-------------
+About this Extension
+--------------------
++ This Extension generates a form that allows users to log volunteer hours as anonymous users.
++ One must enable the permission "CiviVolunteer: Log Own Hours" for anonymous users for this page to work.
 
-+ Write select2 code: https://wiki.civicrm.org/confluence/display/CRMDOC/EntityRef+Fields
-+ For reference for forms: https://git.aghstrategies.com/bike-austin/com.aghstrategies.classrequestform/blob/master/CRM/Classrequestform/Form/BikeEdRequest.php
-+ Check on access arguments
-
-Current Plan:
--------------
-
-- Make sure permissioning is set up correctly
-- Tests
+Needs to be tested
