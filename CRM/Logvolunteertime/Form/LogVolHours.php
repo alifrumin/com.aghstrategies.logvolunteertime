@@ -159,6 +159,10 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
         1 => $error,
       )));
     }
+
+    $url = CRM_Utils_System::url('civicrm/LogVolHours/thanks');
+    CRM_Utils_System::redirect($url);
+
     parent::postProcess();
   }
 
