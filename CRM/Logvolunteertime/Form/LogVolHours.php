@@ -62,20 +62,6 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
       TRUE
     );
 
-    // TODO: delete when js version working
-    // $this->add(
-    //   // field type
-    //   'select',
-    //   // field name
-    //   'volunteer_need_select',
-    //   // field label
-    //   'Volunteer Need Select',
-    //   // list of options
-    //   $this->getVolunteerNeeds(),
-    //   // is required
-    //   TRUE
-    // );
-
     $this->add(
       'hidden',
       'volunteer_need_text',
@@ -137,10 +123,10 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
         1 => $error,
       )));
     }
-    // check if volunteer assignment exisists
+    // check if volunteer assignment exists
     try {
       $assignment = civicrm_api3('VolunteerAssignment', 'get', array(
-        'volunteer_need_id' => $values['volunteer_need_select'],
+        'volunteer_need_id' => $values['volunteer_need_text'],
         'assignee_contact_id' => $individual['id'],
       ));
     }
@@ -154,10 +140,10 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     //Create or Update volunteer assingment record
     // TODO: what if there is more than one assignment
     $assignmentParams = array(
-      'volunteer_need_id' => $values['volunteer_need_select'],
+      'volunteer_need_id' => $values['volunteer_need_text'],
       'assignee_contact_id' => $individual['id'],
       'time_completed_minutes' => $values['hours_logged'],
-      'status_id' => 1,
+      'status_id' => 2,
     );
     if (!empty($assignment['values'])) {
       $assignmentParams['id'] = $assignment['id'];
@@ -195,36 +181,6 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     if (!empty($projects)) {
       foreach ($projects as $project) {
         $options[$project['id']] = ts($project['title']);
-      }
-    }
-    return $options;
-  }
-
-  //TODO: Need to create select two of volunteer Needs based on Project picked
-  /**
-   * Gets Options for Volunteer Projects select
-   * @return [type] [description]
-   */
-  public function getVolunteerNeeds() {
-    try {
-      $result = civicrm_api3('VolunteerNeed', 'get', array(
-        //need to use variable from VolunteerProject select instead of 1
-        'sequential' => 1,
-        'project_id' => 1,
-      ));
-    }
-    catch (CiviCRM_API3_Exception $e) {
-      $error = $e->getMessage();
-      CRM_Core_Error::debug_log_message(ts('API Error %1', array(
-        'domain' => 'com.aghstrategies.logvolunteertime',
-        1 => $error,
-      )));
-    }
-    $needs = $result['values'];
-    $options = array('' => ts('- select -'));
-    if (!empty($needs)) {
-      foreach ($needs as $need) {
-        $options[$need['id']] = ts($need['role_label']);
       }
     }
     return $options;
