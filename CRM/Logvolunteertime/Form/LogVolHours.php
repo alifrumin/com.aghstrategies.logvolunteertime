@@ -62,17 +62,24 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
       TRUE
     );
 
+    // TODO: delete when js version working
+    // $this->add(
+    //   // field type
+    //   'select',
+    //   // field name
+    //   'volunteer_need_select',
+    //   // field label
+    //   'Volunteer Need Select',
+    //   // list of options
+    //   $this->getVolunteerNeeds(),
+    //   // is required
+    //   TRUE
+    // );
+
     $this->add(
-      // field type
-      'select',
-      // field name
-      'volunteer_need_select',
-      // field label
-      'Volunteer Need',
-      // list of options
-      $this->getVolunteerNeeds(),
-      // is required
-      TRUE
+      'hidden',
+      'volunteer_need_text',
+      ts('Volunteer Need')
     );
 
     $this->add(
@@ -144,12 +151,13 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
         1 => $error,
       )));
     }
-    //if assigment exsists update
+    //Create or Update volunteer assingment record
     // TODO: what if there is more than one assignment
     $assignmentParams = array(
       'volunteer_need_id' => $values['volunteer_need_select'],
       'assignee_contact_id' => $individual['id'],
       'time_completed_minutes' => $values['hours_logged'],
+      'status_id' => 1,
     );
     if (!empty($assignment['values'])) {
       $assignmentParams['id'] = $assignment['id'];
