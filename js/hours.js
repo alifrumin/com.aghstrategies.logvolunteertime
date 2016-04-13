@@ -1,20 +1,27 @@
 CRM.$(function ($) {
 
-  $('#volunteer_project_select').change(function () {
-    console.log('Handler for .change() called.');
-    var $ProjectId = $('#volunteer_project_select').val();
-    console.log($volProjectId);
-  });
+  var needSelect = $("<select id=\"needSelectId\" />");
+  needSelect.appendTo('div.crm-section:nth-child(6)');
 
-  CRM.api3('VolunteerNeed', 'get', {
-    projectId: 1,
-  }).done(function (result) {
-      var needs = result.values;
-      var select = $("<select id=\"selectId\" name=\"selectName\" />");
-      $.each(needs, function () {
-        $('<option />', { value: this.id, text: this.role_label }).appendTo(select);
+  $('#volunteer_project_select').change(function () {
+    $('#needSelectId').find('option').remove();
+    console.log('Handler for .change() called.');
+    var $volProjectId = $('#volunteer_project_select').val();
+    CRM.api3('VolunteerNeed', 'get', {
+      'project_id': $volProjectId,
+    }).done(function (result) {
+        var needs = result.values;
+        $.each(needs, function () {
+          $('<option />', { value: this.id, text: this.role_label }).appendTo(needSelect);
+        });
+
       });
 
-      select.appendTo('div.crm-section:nth-child(6)');
+  });
+
+  $('#needSelectId').change(function () {
+      var $volNeedId = $('#needSelectId').val();
+      console.log($volNeedId);
+      $("input[name='volunteer_need_text']").val($volNeedId);
     });
 });
