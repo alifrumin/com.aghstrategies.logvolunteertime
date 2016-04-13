@@ -5,13 +5,13 @@
     <page_callback>CRM_Logvolunteertime_Form_LogVolHours</page_callback>
     <title>LogVolHours</title>
     <is_public>true</is_public>
-    <access_arguments>log-own-hours</access_arguments>
+    <access_arguments>log own hours</access_arguments>
   </item>
   <item>
     <path>civicrm/LogVolHours/thanks</path>
     <page_callback>CRM_Logvolunteertime_Page_LogThankYou</page_callback>
     <title>LogThankYou</title>
-    <access_arguments>log-own-hours</access_arguments>
+    <access_arguments>log own hours</access_arguments>
     <is_public>true</is_public>
   </item>
 </menu>

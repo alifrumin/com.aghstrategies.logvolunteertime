@@ -8,7 +8,5 @@ Things to do:
 Current Plan:
 -------------
 
-- Generate another select based on results of volunteer project that pulls needs (heirselect?)
-- Write conditionals for create api call to log entered info.
 - Make sure permissioning is set up correctly
 - Tests
