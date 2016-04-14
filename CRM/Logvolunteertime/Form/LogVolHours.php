@@ -9,10 +9,17 @@ require_once 'CRM/Core/Form.php';
  */
 class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
 
-  public function getVolunteerProjects() {
+  // public function preProcess() {
+  //   $session = CRM_Core_Session::singleton();
+  //   $userID = $session->get('userID');
+  // }
 
-  }
+  /**
+   * Build Form
+   * @return [type] [description]
+   */
   public function buildQuickForm() {
+
     $this->add(
       'text',
       'first_name',
@@ -90,11 +97,42 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     // export form elements
     $this->assign('elementNames', $this->getRenderableElementNames());
 
-    //set defaults
+    //Populate Contact info if logged in
+    $defaults = array();
+    $session = CRM_Core_Session::singleton();
+    $userID = $session->get('userID');
+    if (!empty($userID)) {
+      try {
+        $currentUser = civicrm_api3('Contact', 'get', array(
+          'sequential' => 1,
+          'id' => $userID,
+        ));
+      }
+      catch (CiviCRM_API3_Exception $e) {
+        $error = $e->getMessage();
+        CRM_Core_Error::debug_log_message(ts('API Error %1', array(
+          'domain' => 'com.aghstrategies.logvolunteertime',
+          1 => $error,
+        )));
+      }
+      $userInfo = $currentUser['values'][0];
+      if (!empty($userInfo['first_name'])) {
+        $defaults['first_name'] = $userInfo['first_name'];
+      }
+      if (!empty($userInfo['last_name'])) {
+        $defaults['last_name'] = htmlspecialchars($userInfo['last_name']);
+      }
+      if (!empty($userInfo['email'])) {
+        $defaults['email'] = htmlspecialchars($userInfo['email']);
+      }
+    }
+    //set default Project if vid exsisits
     if (!empty($_REQUEST['vid'])) {
       $defaults['volunteer_project_select'] = $_REQUEST['vid'];
-      $this->setDefaults($defaults);
     }
+    $this->setDefaults($defaults);
+    // print_r($currentUser['values'][0]['first_name']);
+    // die();
     parent::buildQuickForm();
 
   }
