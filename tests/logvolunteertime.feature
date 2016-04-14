@@ -11,6 +11,10 @@ Feature: Creates a form that allows users to Log Thier Own Volunteer Hours if th
     When they visit and complete the civicrm/LogVolHours page
     Then On submit a contact is created with their email and name and an activity with status completed is created with all information they entered
 
+    Scenario: A user goes to log hours from the log hours button on the drupal view of all events (or a url that looks like this: /civicrm/LogVolHours?vid=[volunteer project id number] )
+      Given a user visits the form via the drupal view link
+      Then the volunteer project select defaults to the volunteer project with the id in the url
+      And the Volunteer Needs Select is populated with the needs associated with that project.
 
 # Gold Feature:
 
@@ -23,9 +27,3 @@ Feature: Creates a form that allows users to Log Thier Own Volunteer Hours if th
 # Scenario: A logged in user visits the form to log volunteer hours for event
 #   Given a user is logged in
 #   When they visit the form the form is prepopulated with their first and last name
-
-# Scenario: A user goes to log hours from the log hours button on the drupal view of all events
-#   Given a user visits the form via the drupal view link
-#   Then the select 2 defaults to the event with that id
-#   When they enter a first and last name that matches a registered volunteer for that event they can log hours for that contact
-#   When the name does not match an new contact is created as well as a record of that person signing up to volunteer and their logged hours
