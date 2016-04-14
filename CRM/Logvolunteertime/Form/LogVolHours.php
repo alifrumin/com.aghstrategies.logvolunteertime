@@ -89,7 +89,14 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
 
     // export form elements
     $this->assign('elementNames', $this->getRenderableElementNames());
+
+    //set defaults
+    if (!empty($_REQUEST['vid'])) {
+      $defaults['volunteer_project_select'] = $_REQUEST['vid'];
+      $this->setDefaults($defaults);
+    }
     parent::buildQuickForm();
+
   }
 
   public function postProcess() {
