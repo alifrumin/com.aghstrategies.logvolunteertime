@@ -4,10 +4,10 @@ Feature: Creates a form that allows users to Log Thier Own Volunteer Hours if th
     Given a user is not logged in and is registered to volunteer
     When they visit the civicrm/LogVolHours page
     And accurately enter the information corresponding to the volunteer activity on their contact record
-    Then On submit that activity is updated to reflect the number in "Hours Volunteered" ard the activity status is changed to completed.
+    Then On submit that activity is updated to reflect the number in "Hours Volunteered" and the activity status is changed to completed.
 
   Scenario: An anonymous user who does not have a contact record and is not registered to volunteer visits the form to log volunteer hours
-    Given a user is not logged in and is registered to volunteer and does not have a contact record
+    Given a user is not logged in and is not registered to volunteer (no exsisting "Volunteer Assignment" activity) and does not have a contact record
     When they visit and complete the civicrm/LogVolHours page
     Then On submit a contact is created with their email and name and an activity with status completed is created with all information they entered
 
