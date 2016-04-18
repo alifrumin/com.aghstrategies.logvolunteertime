@@ -194,6 +194,9 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     if (!empty($assignment['values'])) {
       $assignmentParams['id'] = $assignment['id'];
     }
+    else {
+      $assignmentParams['source_contact_id'] = $individual['id'];
+    }
     try {
       $result = civicrm_api3('VolunteerAssignment', 'create', $assignmentParams);
     }
