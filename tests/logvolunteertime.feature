@@ -1,7 +1,13 @@
 Feature: Creates a form that allows users to Log Thier Own Volunteer Hours if they have the permission "CiviVolunteer: log own hours".
 
+  Scenario: The Volunteer Needs select is populated based on the Volunteer Project chosen.
+  *** To test create a new volunteer project and some volunteer needs using civiVolunteer 2.0
+    Given a user visits /civicrm/LogVolHours page
+    When they select a Volunteer Project
+    Then the Volunteer Needs Select is populated to reflect the needs of that project.
+
   Scenario: An anonymous user who is registered to volunteer visits the form to log volunteer hours
-    Given a user is not logged in and is registered to volunteer
+    Given a user is not logged in and is registered to volunteer (has an exsisting volunteer assignment)
     When they visit the civicrm/LogVolHours page
     And accurately enter the information corresponding to the volunteer activity on their contact record
     Then On submit that activity is updated to reflect the number in "Hours Volunteered" and the activity status is changed to completed.
@@ -19,4 +25,4 @@ Feature: Creates a form that allows users to Log Thier Own Volunteer Hours if th
   Scenario: A logged in user visits the form to log volunteer hours for event
     Given a user is logged in
     When they visit the form the form is prepopulated with their first and last name and email
-    And if that information is edited it is edited on their contact record as well
+    And the volunteer assignment activity is updated or created on that contact.
