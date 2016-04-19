@@ -78,7 +78,7 @@ class CRM_Logvolunteertime_Form_LogVolHours extends CRM_Core_Form {
     $this->add(
       'text',
       'hours_logged',
-      ts('Hours Volunteered')
+      ts('Time Volunteered in minutes')
     );
 
     $this->addButtons(array(
